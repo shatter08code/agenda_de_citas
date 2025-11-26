@@ -1,0 +1,58 @@
+{
+  "name": "barberking-db",
+  "description": "Herramientas MCP para interactuar con la base de datos Supabase.",
+  "version": "1.0.0",
+  "tools": [
+    {
+      "name": "pg-query",
+      "description": "Lecturas seguras (SELECT) sobre el esquema public.",
+      "request": {
+        "driver": "postgres",
+        "connection": {
+          "host": "${SUPABASE_DB_HOST}",
+          "port": 5432,
+          "database": "${SUPABASE_DB_NAME}",
+          "user": "${SUPABASE_SERVICE_ROLE_USER}",
+          "password": "${SUPABASE_SERVICE_ROLE_PASSWORD}",
+          "ssl": {
+            "rejectUnauthorized": false
+          }
+        },
+        "readonly": true
+      }
+    },
+    {
+      "name": "pg-exec",
+      "description": "Inserciones/actualizaciones usando el service_role protegido.",
+      "request": {
+        "driver": "postgres",
+        "connection": {
+          "host": "${SUPABASE_DB_HOST}",
+          "port": 5432,
+          "database": "${SUPABASE_DB_NAME}",
+          "user": "${SUPABASE_SERVICE_ROLE_USER}",
+          "password": "${SUPABASE_SERVICE_ROLE_PASSWORD}",
+          "ssl": {
+            "rejectUnauthorized": false
+          }
+        },
+        "readonly": false
+      }
+    }
+  ],
+  "security": {
+    "allowedSchemas": ["public"],
+    "rowLevelSecurity": true,
+    "roleMapping": {
+      "admin": ["pg-query", "pg-exec"],
+      "customer": ["pg-query"]
+    }
+  }
+}
+
+
+
+
+
+
+
